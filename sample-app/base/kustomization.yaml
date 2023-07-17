@@ -1,3 +1,6 @@
+commonAnnotations:
+  app.kubernetes.io/instance: sample-app
+
 resources:
 - deployment.yaml
 - service.yaml
