@@ -1,0 +1,142 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: security-checks
+  labels:
+    app: sample-app
+    createdBy: "apoczekalewicz-openshift-gitops"
+spec:
+  params:
+    - default: 'http://myallure.apps-allure.svc.cluster.local:5050'
+      name: allure_host
+      type: string
+    - default: 'http://sample-app.sample-app-dev.svc.cluster.local:8080'
+      name: app_url
+      type: string
+
+    - default: 'https://github.com/apoczekalewicz/sample-app.git'
+      name: APP_SOURCE_GIT
+      type: string
+    - default: master
+      name: APP_SOURCE_REVISION
+      type: string
+
+    - default: latest
+      name: APP_IMAGE_TAG
+      type: string
+    - default: quay.io/apoczeka/sample-app
+      name: APP_IMAGE
+      type: string
+
+    - default: >-
+        https://raw.githubusercontent.com/apoczekalewicz/openshift-gitops/master/apps/sample-app/base/deployment.yaml
+      name: APP_DEPLOYMENT_FILE
+      type: string
+
+  tasks:
+    - name: git-clone
+      params:
+        - name: url
+          value: $(params.APP_SOURCE_GIT)
+        - name: revision
+          value: $(params.APP_SOURCE_REVISION)
+        - name: submodules
+          value: 'true'
+        - name: depth
+          value: '01'
+        - name: sslVerify
+          value: 'false'
+        - name: deleteExisting
+          value: 'true'
+        - name: verbose
+          value: 'true'
+        - name: gitInitImage
+          value: >-
+            registry.redhat.io/openshift-pipelines/pipelines-git-init-rhel8@sha256:da1aedf0b17f2b9dd2a46edc93ff1c0582989414b902a28cd79bad8a035c9ea4
+        - name: userHome
+          value: /tekton/home
+      taskRef:
+        kind: ClusterTask
+        name: git-clone
+      workspaces:
+        - name: output
+          workspace: workspace
+    - name: blackbox-owasp
+      params:
+        - name: APPLICATION_NAME
+          value: zap-scan
+        - name: APP_URL
+          value: $(params.app_url)
+        - name: ALLURE_HOST
+          value: $(params.allure_host)
+        - name: ALLURE_SECRET
+          value: allure-auth
+        - name: WORK_DIRECTORY
+          value: /zap-proxy
+      taskRef:
+        kind: Task
+        name: zap-proxy
+      workspaces:
+        - name: output
+          workspace: workspace
+    - name: source-code-scan
+      params:
+        - name: SONAR_HOST_URL
+          value: ''
+        - name: SONAR_PROJECT_KEY
+          value: ''
+      taskRef:
+        kind: Task
+        name: sonarqube-scanner
+      workspaces:
+        - name: source
+          subPath: .
+          workspace: workspace
+        - name: sonar-settings
+          workspace: sonarconfig
+      runAfter: 
+        - git-clone
+
+    - name: image-policies
+      params:
+        - name: rox_central_endpoint
+          value: roxsecrets
+        - name: rox_api_token
+          value: roxsecrets
+        - name: image
+          value: '$(params.APP_IMAGE):$(params.APP_IMAGE_TAG)'
+      taskRef:
+        kind: Task
+        name: rox-image-check
+    - name: image-vulns
+      params:
+        - name: rox_central_endpoint
+          value: roxsecrets
+        - name: rox_api_token
+          value: roxsecrets
+        - name: image
+          value: '$(params.APP_IMAGE):$(params.APP_IMAGE_TAG)'
+        - name: output_format
+          value: table
+      taskRef:
+        kind: Task
+        name: rox-image-scan
+    - name: deployment-check
+      params:
+        - name: rox_central_endpoint
+          value: roxsecrets
+        - name: rox_api_token
+          value: roxsecrets
+        - name: file-url
+          value: '$(params.APP_DEPLOYMENT_FILE)'
+      taskRef:
+        kind: Task
+        name: rox-deployment-check-remote
+      workspaces:
+        - name: deployfiles
+          workspace: emptydir
+
+  workspaces:
+    - name: workspace
+    - name: emptydir
+    - name: sonarconfig
