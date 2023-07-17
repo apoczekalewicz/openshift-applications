@@ -4,6 +4,7 @@ metadata:
   name: sample-app
   app.kubernetes.io/instance: sample-app
   argocd.argoproj.io/sync-options: ServerSideApply=true
+  argocd.argoproj.io/sync-options: Replace=true
 spec:
   replicas: 1
   selector:
