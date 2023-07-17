@@ -1,4 +1,4 @@
-commonAnnotations:
+commonLabels:
   app.kubernetes.io/instance: sample-app
 
 resources:
