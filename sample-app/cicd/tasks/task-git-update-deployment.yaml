@@ -72,6 +72,9 @@ spec:
       name: git-commit
       resources: {}
       script: >
+
+        sleep 600
+
         cd git-update-digest-workdir
 
         git config user.email "tekton-pipelines-ci@redhat.com"
