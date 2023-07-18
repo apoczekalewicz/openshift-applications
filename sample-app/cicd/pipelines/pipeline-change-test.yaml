@@ -14,7 +14,7 @@ spec:
       name: APP_IMAGE
       type: string
 
-    - default: 'https://github.com/apoczekalewicz/openshift-gitops.git'
+    - default: 'https://github.com/apoczekalewicz/openshift-applications.git'
       name: APP_MANIFESTS_GIT
       type: string
     - default: sample-app
@@ -32,7 +32,7 @@ spec:
         - name: NEW_IMAGE
           value: $(params.APP_IMAGE)
         - name: KUSTOMIZATION_PATH
-          value: apps/$(params.APP_NAME)/test
+          value: $(params.APP_NAME)/test
         - name: GIT_REVISION
           value: master
         - name: NEW_TAG
@@ -45,21 +45,21 @@ spec:
           workspace: workspace
         - name: basic-auth
           workspace: git-basic-auth
-    - name: gitops-sync
-      params:
-        - name: application-name
-          value: $(params.APP_NAME)-test
-        - name: revision
-          value: HEAD
-        - name: flags
-          value: '--insecure'
-        - name: argocd-version
-          value: v2.6.7
-      runAfter:
-        - git-update-deployment
-      taskRef:
-        kind: Task
-        name: argocd-task-sync-and-wait
+#    - name: gitops-sync
+#      params:
+#        - name: application-name
+#          value: $(params.APP_NAME)-test
+#        - name: revision
+#          value: HEAD
+#        - name: flags
+#          value: '--insecure'
+#        - name: argocd-version
+#          value: v2.6.7
+#      runAfter:
+#        - git-update-deployment
+#      taskRef:
+#        kind: Task
+#        name: argocd-task-sync-and-wait
     - name: notification
       params:
         - name: server

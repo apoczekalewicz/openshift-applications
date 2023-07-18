@@ -4,12 +4,12 @@ metadata:
   name: build-sample-app
   labels:
     app: sample-app
-    createdBy: "apoczekalewicz-openshift-gitops"
 spec:
   params:
     - default: 'https://github.com/apoczekalewicz/sample-app.git'
       name: APP_SOURCE_GIT
       type: string
+
     - default: master
       name: APP_SOURCE_REVISION
       type: string
@@ -17,17 +17,18 @@ spec:
     - default: latest
       name: APP_IMAGE_TAG
       type: string
+
     - default: quay.io/apoczeka/sample-app
       name: APP_IMAGE
       type: string
 
-    - default: 'https://github.com/apoczekalewicz/openshift-gitops.git'
+    - default: 'https://github.com/apoczekalewicz/openshift-applications.git'
       name: APP_MANIFESTS_GIT
       type: string
+
     - default: sample-app
       name: APP_NAME
       type: string
-
 
   tasks:
     - name: git-clone
@@ -114,7 +115,7 @@ spec:
         - name: NEW_IMAGE
           value: $(params.APP_IMAGE)
         - name: KUSTOMIZATION_PATH
-          value: apps/$(params.APP_NAME)/dev
+          value: $(params.APP_NAME)/dev
         - name: GIT_REVISION
           value: master
         - name: NEW_TAG
@@ -129,21 +130,21 @@ spec:
           workspace: workspace
         - name: basic-auth
           workspace: git-basic-auth
-    - name: gitops-sync
-      params:
-        - name: application-name
-          value: $(params.APP_NAME)-dev
-        - name: revision
-          value: HEAD
-        - name: flags
-          value: '--insecure'
-        - name: argocd-version
-          value: v2.6.7
-      runAfter:
-        - git-update-deployment
-      taskRef:
-        kind: Task
-        name: argocd-task-sync-and-wait
+#    - name: gitops-sync
+#      params:
+#        - name: application-name
+#          value: $(params.APP_NAME)-dev
+#        - name: revision
+#          value: HEAD
+#        - name: flags
+#          value: '--insecure'
+#        - name: argocd-version
+#          value: v2.6.7
+#      runAfter:
+#        - git-update-deployment
+#      taskRef:
+#        kind: Task
+#        name: argocd-task-sync-and-wait
 
   workspaces:
     - name: workspace
