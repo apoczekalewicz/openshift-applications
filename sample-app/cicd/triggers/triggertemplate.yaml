@@ -1,0 +1,43 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: TriggerTemplate
+metadata:
+  name: trigger-template-build-sample-app
+spec:
+  params:
+    - name: git-revision
+    - name: git-commit-message
+    - name: git-repo-url
+    - name: git-repo-name
+    - name: content-type
+    - name: pusher-name
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1beta1
+      kind: PipelineRun
+      metadata:
+        generateName: build-sample-app-
+      spec:
+        params:
+          - name: APP_SOURCE_GIT
+            value: 'https://github.com/apoczekalewicz/sample-app.git'
+          - name: APP_SOURCE_REVISION
+            value: master
+          - name: APP_IMAGE_TAG
+            value: $(tt.params.git-revision)
+          - name: APP_IMAGE
+            value: quay.io/apoczeka/sample-app
+          - name: APP_MANIFESTS_GIT
+            value: 'https://github.com/apoczekalewicz/openshift-applications.git'
+          - name: APP_NAME
+            value: sample-app
+        pipelineRef:
+          name: build-sample-app
+        workspaces:
+          - name: workspace
+            persistentVolumeClaim:
+              claimName: workspace
+          - emptyDir: {}
+            name: images-url
+          - name: git-basic-auth
+            secret:
+              secretName: github-creds
+
