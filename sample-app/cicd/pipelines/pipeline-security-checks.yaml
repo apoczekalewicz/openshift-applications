@@ -10,7 +10,7 @@ spec:
     - default: 'http://myallure.apps-allure.svc.cluster.local:5050'
       name: allure_host
       type: string
-    - default: 'http://sample-app.sample-app-dev.svc.cluster.local:8080'
+    - default: 'http://sample-app.app2-dev.svc.cluster.local:8080'
       name: app_url
       type: string
 
@@ -29,7 +29,7 @@ spec:
       type: string
 
     - default: >-
-        https://raw.githubusercontent.com/apoczekalewicz/openshift-gitops/master/apps/sample-app/base/deployment.yaml
+        https://raw.githubusercontent.com/apoczekalewicz/openshift-applications/master/sample-app/base/deployment.yaml
       name: APP_DEPLOYMENT_FILE
       type: string
 
