@@ -1,0 +1,12 @@
+apiVersion: console.openshift.io/v1
+kind: ConsoleLink
+metadata:
+  name: quay-sampleapp
+spec:
+  applicationMenu:
+    imageURL: https://cdn.freebiesupply.com/logos/large/2x/quay-1-logo-png-transparent.png
+    section: Sample-app
+  href: https://quay.io/repository/apoczeka/sample-app?tab=tags
+  location: ApplicationMenu
+  text: Quay - sample-app images
+

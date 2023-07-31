@@ -1,0 +1,12 @@
+apiVersion: console.openshift.io/v1
+kind: ConsoleLink
+metadata:
+  name: source-sampleapp
+spec:
+  applicationMenu:
+    imageURL: https://1000logos.net/wp-content/uploads/2021/05/GitHub-logo.png
+    section: Sample-app
+  href: https://github.com/apoczekalewicz/sample-app/tree/master
+  location: ApplicationMenu
+  text: Github - sample-app
+
