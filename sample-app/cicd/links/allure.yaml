@@ -1,0 +1,12 @@
+apiVersion: console.openshift.io/v1
+kind: ConsoleLink
+metadata:
+  name: sonarcloud
+spec:
+  applicationMenu:
+    imageURL: https://owasp.org/assets/images/logo.svg
+    section: Security - applications
+  href: https://myallure-apps-allure.apps.X/allure-docker-service/projects/zap-scan/reports/latest/index.html#
+  location: ApplicationMenu
+  text: OWASP scan
+
