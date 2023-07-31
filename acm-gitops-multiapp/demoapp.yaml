@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: demoapp
+  name: multiapp
   namespace: openshift-gitops
 spec:
   generators:
@@ -9,11 +9,11 @@ spec:
         configMapRef: acm-placement
         labelSelector:
           matchLabels:
-           cluster.open-cluster-management.io/placement: global
+           cluster.open-cluster-management.io/placement: multiapp
         requeueAfterSeconds: 180
   template:
     metadata:
-      name: demoapp-{{name}}
+      name: multiapp-{{name}}
     spec:
       project: default
       source:
@@ -21,7 +21,7 @@ spec:
         targetRevision: master
         path: sample-app/dev/
       destination:
-        namespace: demoapp
+        namespace: multiapp
         server: "{{server}}"
       syncPolicy:
         automated:
