@@ -67,8 +67,6 @@ spec:
           privileged: false
           runAsUser: 26
           runAsGroup: 26
-          fsGroup: 26
-          fsGroupChangePolicy: Always
         terminationMessagePath: /dev/termination-log
         volumeMounts:
         - mountPath: /var/lib/pgsql/data
