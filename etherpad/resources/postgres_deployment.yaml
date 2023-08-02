@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgresql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: postgresql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        name: postgresql
+    spec:
+      serviceAccount: postgresql-sa
+      serviceAccountName: postgresql-sa
+      securityContext:
+          runAsUser: 26
+          runAsGroup: 26
+          fsGroup: 26
+          fsGroupChangePolicy: Always
+      containers:
+      - capabilities: {}
+#        command: ["/bin/bash", "-c", "sleep infinity"]
+        env:
+        - name: POSTGRESQL_USER
+          valueFrom:
+            secretKeyRef:
+              key: database-user
+              name: ether
+        - name: POSTGRESQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: database-password
+              name: ether
+        - name: POSTGRESQL_DATABASE
+          valueFrom:
+            secretKeyRef:
+              key: database-name
+              name: ether
+        image: registry.redhat.io/rhel8/postgresql-10@sha256:fdb96a1c096e40d706e51e94fcc535f9269c51bda427a7bd5fe983d5df1fbdae
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          exec:
+            command:
+            - /usr/libexec/check-container
+            - --live
+          initialDelaySeconds: 120
+          timeoutSeconds: 10
+        name: postgresql
+        ports:
+        - containerPort: 5432
+          protocol: TCP
+        readinessProbe:
+          exec:
+            command:
+            - /usr/libexec/check-container
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
+        resources:
+          limits:
+            memory: 512Mi
+        securityContext:
+          capabilities: {}
+          privileged: false
+          runAsUser: 26
+          runAsGroup: 26
+          fsGroup: 26
+          fsGroupChangePolicy: Always
+        terminationMessagePath: /dev/termination-log
+        volumeMounts:
+        - mountPath: /var/lib/pgsql/data
+          name: postgresql-data
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      volumes:
+      - name: postgresql-data
+        persistentVolumeClaim:
+          claimName: db-pvc
