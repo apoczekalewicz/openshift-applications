@@ -9,7 +9,7 @@ spec:
     manual: rep1
   rsync:
     sshKeys: volsync-rsync-dest-src-database-destination
-    address: 
+    address: 34.79.103.70
     copyMethod: Snapshot
 #    storageClassName: standard-csi
 #    volumeSnapshotClassName: csi-gce-pd-vsc

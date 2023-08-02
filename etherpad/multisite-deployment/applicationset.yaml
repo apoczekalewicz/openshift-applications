@@ -10,7 +10,7 @@ spec:
         labelSelector:
           matchLabels:
            cluster.open-cluster-management.io/placement: etherpad
-        requeueAfterSeconds: 180
+        requeueAfterSeconds: 2
   template:
     metadata:
       name: etherpad-{{name}}
