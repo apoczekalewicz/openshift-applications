@@ -23,7 +23,7 @@ spec:
           fsGroupChangePolicy: Always
       containers:
 #        command: ["/bin/bash", "-c", "sleep infinity"]
-        env:
+      - env:
         - name: POSTGRESQL_USER
           valueFrom:
             secretKeyRef:
