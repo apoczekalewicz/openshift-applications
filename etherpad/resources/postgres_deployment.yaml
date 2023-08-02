@@ -22,7 +22,6 @@ spec:
           fsGroup: 26
           fsGroupChangePolicy: Always
       containers:
-      - capabilities: {}
 #        command: ["/bin/bash", "-c", "sleep infinity"]
         env:
         - name: POSTGRESQL_USER
