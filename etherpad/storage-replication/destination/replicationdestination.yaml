@@ -10,4 +10,5 @@ spec:
     accessModes: ["ReadWriteOnce"]
     sshKeys: volsync-rsync-dest-dest-database-destination
     serviceType: LoadBalancer
+    destinationPVC: db-pvc
 #    storageClassName: standard-csi
