@@ -23,7 +23,8 @@ spec:
           fsGroupChangePolicy: Always
       containers:
 #        command: ["/bin/bash", "-c", "sleep infinity"]
-      - env:
+      - name: postgresql
+        env:
         - name: POSTGRESQL_USER
           valueFrom:
             secretKeyRef:
@@ -48,7 +49,6 @@ spec:
             - --live
           initialDelaySeconds: 120
           timeoutSeconds: 10
-        name: postgresql
         ports:
         - containerPort: 5432
           protocol: TCP
