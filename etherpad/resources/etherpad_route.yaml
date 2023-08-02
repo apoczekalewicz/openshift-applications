@@ -9,6 +9,7 @@ spec:
     insecureEdgeTerminationPolicy: Redirect
     termination: edge
   to:
+    kind: Service
     name: etherpad
   port:
     targetPort: 9001
