@@ -62,7 +62,6 @@ spec:
           limits:
             memory: 512Mi
         securityContext:
-          capabilities: {}
           privileged: false
           runAsUser: 26
           runAsGroup: 26
