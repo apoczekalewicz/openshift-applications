@@ -9,5 +9,5 @@ data:
   repmgr_node_network_name: {{ .Values.repmgr_node_network_name }}
   repmgr_primary_host: {{ .Values.repmgr_primary_host }}
   pgpool_backend_nodes: {{ .Values.pgpool_backend_nodes }}
-
-  
+  pgpool_authentication_method: {{ .Values.pgpool_authentication_method }}
+  pgpool_enable_pool_hba: "{{ .Values.pgpool_enable_pool_hba }}"

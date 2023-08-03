@@ -62,3 +62,13 @@ spec:
             secretKeyRef:
               name: {{ .Values.name }}-secret
               key: dbadminpass
+        - name: PGPOOL_AUTHENTICATION_METHOD
+          valueFrom:
+            configMapKeyRef:
+              name: {{ .Values.name }}-config
+              key: pgpool_authentication_method
+        - name: PGPOOL_ENABLE_POOL_HBA
+          valueFrom:
+            configMapKeyRef:
+              name: {{ .Values.name }}-config
+              key: pgpool_enable_pool_hba
