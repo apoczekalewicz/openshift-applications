@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.name }}-pgpool
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.name }}-pgpool
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.name }}-pgpool
+    spec:
+      containers:
+      - name: {{ .Values.name }}-pgpool
+        image: bitnami/pgpool
+        env:
+        - name: PGPOOL_BACKEND_NODES
+          valueFrom:
+            configMapKeyRef:
+              name: {{ .Values.name }}-config
+              key: pgpool_backend_nodes
+        - name: PGPOOL_ADMIN_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.name }}-secret
+              key: dbadminuser
+        - name: PGPOOL_ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.name }}-secret
+              key: dbadminpass
+        - name: PGPOOL_SR_CHECK_USER
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.name }}-secret
+              key: dbadminuser
+        - name: PGPOOL_SR_CHECK_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.name }}-secret
+              key: dbadminpass
+        - name: PGPOOL_HEALTH_CHECK_USER
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.name }}-secret
+              key: dbadminuser
+        - name: PGPOOL_HEALTH_CHECK_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.name }}-secret
+              key: dbadminpass
+        - name: PGPOOL_POSTGRES_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.name }}-secret
+              key: dbadminuser
+        - name: PGPOOL_POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.name }}-secret
+              key: dbadminpass

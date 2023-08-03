@@ -1,0 +1,18 @@
+name: postgresql-1
+namespace: database
+globalservicename: postgresql
+
+dbname: baza
+dbuser: user
+dbpass: password
+dbadminuser: postgres
+dbadminpass: password
+
+repmgr_password: password
+
+repmgr_node_name: postgresql-1
+repmgr_node_network_name: postgresql-1.database.svc.clusterset.local
+repmgr_partner_nodes: postgresql-1,postgresql-2
+repmgr_primary_host: postgresql-1.database.svc.clusterset.local
+
+pgpool_backend_nodes: 0:postgresql-1.database.svc.clusterset.local:5432,1:postgresql-2.database.svc.clusterset.local:5432

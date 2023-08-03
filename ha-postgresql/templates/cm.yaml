@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.name }}-config
+  namespace: {{ .Values.namespace }}
+data:
+  repmgr_partner_nodes: {{ .Values.repmgr_partner_nodes }}
+  repmgr_node_name: {{ .Values.repmgr_node_name }}
+  repmgr_node_network_name: {{ .Values.repmgr_node_network_name }}
+  repmgr_primary_host: {{ .Values.repmgr_primary_host }}
+  pgpool_backend_nodes: {{ .Values.pgpool_backend_nodes }}
+
+  

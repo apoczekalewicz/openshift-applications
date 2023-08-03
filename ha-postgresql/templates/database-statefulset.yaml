@@ -1,0 +1,87 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Values.name }}-postgresql
+  namespace: {{ .Values.namespace }}
+spec:
+  serviceName: {{ .Values.name }}-posgresql
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.name }}-postgresql
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.name }}-postgresql
+    spec:
+      containers:
+      - name: {{ .Values.name }}-postgresql
+        env:
+        - name: POSTGRESQL_USERNAME
+          valueFrom:
+            secretKeyRef:
+              key: dbuser
+              name: {{ .Values.name }}-secret
+        - name: POSTGRESQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: dbpass
+              name: {{ .Values.name }}-secret
+        - name: POSTGRESQL_POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: dbadminpass
+              name: {{ .Values.name }}-secret
+        - name: POSTGRESQL_DATABASE
+          valueFrom:
+            secretKeyRef:
+              key: dbname
+              name: {{ .Values.name }}-secret
+        - name: REPMGR_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: repmgr_password
+              name: {{ .Values.name }}-secret
+        - name: REPMGR_PARTNER_NODES
+          valueFrom:
+            configMapKeyRef:
+              key: repmgr_partner_nodes
+              name: {{ .Values.name }}-config
+        - name: REPMGR_NODE_NAME
+          valueFrom:
+            configMapKeyRef:
+              key: repmgr_node_name
+              name: {{ .Values.name }}-config
+        - name: REPMGR_NODE_NETWORK_NAME
+          valueFrom:
+            configMapKeyRef:
+              key: repmgr_node_network_name
+              name: {{ .Values.name }}-config
+        - name: REPMGR_PRIMARY_HOST
+          valueFrom:
+            configMapKeyRef:
+              key: repmgr_primary_host
+              name: {{ .Values.name }}-config
+        ports:
+        - containerPort: 5432
+          protocol: TCP
+        image: bitnami/postgresql-repmgr
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            memory: 512Mi
+        securityContext:
+          privileged: false
+        terminationMessagePath: /dev/termination-log
+        volumeMounts:
+        - mountPath: /bitnami/postgresql
+          name: {{ .Values.name }}-data
+  volumeClaimTemplates:
+  - metadata:
+      name: {{ .Values.name }}-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
+
