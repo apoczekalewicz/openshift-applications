@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: persistent-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      deployment: persistent-app
+  template:
+    metadata:
+      labels:
+        deployment: persistent-app
+    spec:
+      containers:
+      - name: persistent-app
+        image: quay.io/apoczeka/persistent-app:latest
+        ports:
+        - containerPort: 8080
