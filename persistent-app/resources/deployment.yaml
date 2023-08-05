@@ -17,3 +17,10 @@ spec:
         image: quay.io/apoczeka/persistent-app:latest
         ports:
         - containerPort: 8080
+        volumeMounts:
+        - name: data
+          mountPath: /data
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: persistent-app
