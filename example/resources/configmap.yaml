@@ -2,5 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: appconfig
+  labels:
+    app: example
 data:
   msg: "Good Morning!"

@@ -9,7 +9,7 @@ metadata:
   namespace: persistent-app
   annotations:
     apps.open-cluster-management.io/github-branch: master
-    apps.open-cluster-management.io/github-path: persistent-app/resources
+    apps.open-cluster-management.io/github-path: persistent-app/deployments/kustomize_ceph_rbd
   labels:
     app: persistent-app
   name: persistent-app

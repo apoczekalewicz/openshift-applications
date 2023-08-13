@@ -1,0 +1,16 @@
+apiVersion: apps.open-cluster-management.io/v1
+kind: PlacementRule
+metadata:
+  name: example-acm
+  namespace: example-acm
+  labels:
+    app: example-acm
+spec:
+  clusterSelector:
+    matchExpressions:
+      - key: example-acm
+        operator: In
+        values:
+          - "true"
+#  clusterReplicas: 1
+

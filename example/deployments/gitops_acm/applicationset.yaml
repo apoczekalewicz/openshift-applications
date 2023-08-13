@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: persistent-app
+  name: example
   namespace: openshift-gitops
 spec:
   generators:
@@ -9,19 +9,19 @@ spec:
         configMapRef: acm-placement
         labelSelector:
           matchLabels:
-           cluster.open-cluster-management.io/placement: persistent-app
-        requeueAfterSeconds: 2
+           cluster.open-cluster-management.io/placement: example
+        requeueAfterSeconds: 5
   template:
     metadata:
-      name: persistent-app-{{name}}
+      name: app-example-{{name}}
     spec:
       project: default
       source:
         repoURL: https://github.com/apoczekalewicz/openshift-applications.git
         targetRevision: master
-        path: persistent-app/resources
+        path: example/resources
       destination:
-        namespace: persistent-app
+        namespace: example-applicationset-acm
         server: "{{server}}"
       syncPolicy:
         automated:

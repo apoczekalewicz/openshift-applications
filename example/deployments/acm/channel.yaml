@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: example-acm-ch
+  labels:
+    app: example-acm
+---
+apiVersion: apps.open-cluster-management.io/v1
+kind: Channel
+metadata:
+  namespace: example-acm-ch
+  name: example-acm
+  labels:
+    app: example-acm
+spec:
+  type: GitHub
+  pathname: https://github.com/apoczekalewicz/openshift-applications.git
+
