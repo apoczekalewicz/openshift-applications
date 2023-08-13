@@ -6,9 +6,10 @@ metadata:
 apiVersion: apps.open-cluster-management.io/v1
 kind: Subscription
 metadata:
+  namespace: persistent-app
   annotations:
     apps.open-cluster-management.io/github-branch: master
-    apps.open-cluster-management.io/github-path: persistent-app/deployments/kustomize_ceph_rbd
+    apps.open-cluster-management.io/github-path: persistent-app/resources
   labels:
     app: persistent-app
   name: persistent-app

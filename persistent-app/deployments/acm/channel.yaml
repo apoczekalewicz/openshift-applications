@@ -2,12 +2,16 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: persistent-app-ch
+  labels:
+    app: persistent-app
 ---
 apiVersion: apps.open-cluster-management.io/v1
 kind: Channel
 metadata:
   namespace: persistent-app-ch
   name: persistent-app
+  labels:
+    app: persistent-app
 spec:
   type: GitHub
   pathname: https://github.com/apoczekalewicz/openshift-applications.git
