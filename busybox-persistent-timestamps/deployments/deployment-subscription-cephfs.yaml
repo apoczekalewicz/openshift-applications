@@ -72,7 +72,7 @@ apiVersion: cluster.open-cluster-management.io/v1beta2
 kind: ManagedClusterSetBinding
 metadata:
   namespace: busybox
-  name: busybox
+  name: default
 spec:
   clusterSet: default
 
