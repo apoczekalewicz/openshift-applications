@@ -5,7 +5,7 @@ metadata:
   name: busybox-pvc
   labels:
     appname: busybox
-    placement: busybox-placement-1
+    app: busybox
 spec:
   accessModes:
   - ReadWriteMany

@@ -4,6 +4,7 @@ kind: Deployment
 metadata:
   labels:
     appname: busybox
+    app: busybox
   name: busybox
 spec:
   replicas: 1
