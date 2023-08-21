@@ -11,10 +11,12 @@ spec:
   selector:
     matchLabels:
       appname: busybox
+      app: busybox
   template:
     metadata:
       labels:
         appname: busybox
+        app: busybox
     spec:
       containers:
       - image: docker.io/library/busybox:stable
