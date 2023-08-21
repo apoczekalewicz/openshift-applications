@@ -65,7 +65,7 @@ spec:
         ports:
         - containerPort: 5432
           protocol: TCP
-        image: bitnami/postgresql-repmgr
+        image: quay.io/apoczeka/postgresql-repmgr
         imagePullPolicy: IfNotPresent
         resources:
           limits:

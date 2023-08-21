@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: {{ .Values.name }}-pgpool
-        image: bitnami/pgpool
+        image: quay.io/apoczeka/pgpool
         env:
         - name: PGPOOL_BACKEND_NODES
           valueFrom:
