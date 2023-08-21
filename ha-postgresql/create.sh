@@ -1,6 +1,8 @@
-aro
+c1
+oc new-project database
 helm template -f ./values-1.yaml . | oc create -f -
-gcp1
+c2
+oc new-project database
 helm template -f ./values-2.yaml . | oc create -f - 
 
 echo Settings:
