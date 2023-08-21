@@ -1,6 +1,7 @@
 c1
 oc new-project database
 helm template -f ./values-1.yaml . | oc create -f -
+sleep 10
 c2
 oc new-project database
 helm template -f ./values-2.yaml . | oc create -f - 
