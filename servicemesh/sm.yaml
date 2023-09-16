@@ -1,0 +1,43 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: music-store
+  namespace: music-store
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - "*"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: music-store-ui
+  namespace: music-store
+spec:
+  hosts:
+    - "*"
+  gateways:
+    - music-store
+  http:
+    - match:
+        - uri:
+            exact: /
+      route:
+        - destination:
+            host: music-store-ui
+            port:
+              number: 8080
+    - match:
+        - uri:
+            prefix: /api
+      route:
+        - destination:
+            host: music-store-backend
+            port:
+              number: 8080
