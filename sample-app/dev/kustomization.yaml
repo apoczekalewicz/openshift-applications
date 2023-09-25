@@ -15,4 +15,4 @@ configMapGenerator:
 images:
 - name: quay.io/apoczeka/sample-app:latest
   newName: quay.io/apoczeka/sample-app
-  newTag: 886e8e44631ff31012d384ec390dd86dbb1efaad
+  newTag: 4a8f247eefd51757fc29d3fe434403d6af43eb4b
